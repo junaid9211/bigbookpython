@@ -1,0 +1,24 @@
+bagels a guessing game
+- gives you 10 tries to guess a 3 digit number
+- you provide the digit and its position
+- if both are correct           -> print fermi
+- if both are wrong             -> print bagel
+- if correct number wrong place -> print pico
+
+Interface:
+Welcome to bagels. I have guessed a 3 digit number, can you guess what it is?
+You have 10 tries. Guess one digit at a time along with its position
+Type this way: [number] [position]
+X X X | your response: 1 2
+fermi
+
+tries: [10]  number: [X 2 X] | Your guess:
+Invalid input, please type this way: [number] \[position\]. example: "9 2" if you guess that number 9 is in 2nd position.
+
+
+How to create this program?
+step1: generate the random number for guessing
+step2: write code for reading the input
+step3: write code for checking the user input
+step4: create the game loop
+
