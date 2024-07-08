@@ -2,51 +2,46 @@
 bagels practice
 author: junaid mughal
 """
+from utils import (
+    gen_secret_num,
+    get_input,
+    did_win,
+    get_hints
+)
 
-import random
+DIGITS = 3
+GUESSES = 10
 
-digits = 3
-guesses = 10
-
-starting_message = ('Bagels Program...'
-                    f'I have a secret number, of {digits} can you guess what it is? You have {guesses} tries')
-
-
-def gen_secret_num(digit_count: int) -> str:
-    digits = list('0123456789')
-    random.shuffle(digits)
-    secret_num = ''.join(digits[i] for i in range(digit_count))
-    return secret_num
-
-
-def get_input(digit_count):
-    while True:
-        user_input = input("> ").strip()
-        if user_input.isdigit() and len(user_input) == digit_count:
-            return user_input
-        else:
-            print(f'Incorrect format. provide 3 digits, ex 123')
+starting_message = (
+    f'Bagels Program by Junaid9211\n'
+    f'I will think of a secret number of {DIGITS} digits\n'
+    f'You will have to guess it, you would have {GUESSES} tries'
+)
 
 
-def compare(secret, user_input):
-    hints = []
-    if user_input == secret:
-        print(f'You won')
-        return True
 
-    for i, c in enumerate(user_input):
-        if c in secret:
-            if c == secret[i]:
-                hints.append("Fermi")
-            else:
-                hints.append("Pico")
+def game_round():
+    secret_num = gen_secret_num(DIGITS)
+    print("I've thought of a secret number... ")
+    # print(f'secret: {secret_num}')   For debug purpose
+    cur_attempt = 1
+    won = False
+    while cur_attempt <= GUESSES:
+        print(f'Guess #{cur_attempt}')
+        user_input = get_input(DIGITS)
 
-    if not hints:
-        hints.append("Bagel")
+        cur_attempt += 1
+        won = did_win(secret_num, user_input)
+        if won:
+            break
 
-    hints.sort()
-    print(' '.join(hints))
-    return False
+        hints = get_hints(secret_num, user_input)
+        print(hints)
+
+    if won:
+        print("You won")
+    else:
+        print(f"You lost, the number was: {secret_num}")
 
 
 def main():
@@ -54,24 +49,11 @@ def main():
     playagain = True
 
     while playagain:
-        secret_num = gen_secret_num(digits)
-        print("I've thought of a secret number... ")
-        # print(f'secret: {secret_num}')   For debug purpose
-        cur_attempt = 1
-        won = False
-        while cur_attempt <= guesses:
-            print(f'Guess #{cur_attempt}')
-            user_input = get_input(digits)
-            cur_attempt += 1
-            won = compare(secret_num, user_input)
-            if won:
-                break
-
-        if not won:
-            print(f"You lost, the number was: {secret_num}")
+        game_round()
         playagain = input("Do you want to play again? (yes or no):  ") == "yes"
 
     print("Thanks for playing...")
+
 
 
 if __name__ == '__main__':
