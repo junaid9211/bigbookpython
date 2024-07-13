@@ -1,18 +1,10 @@
-from collections import namedtuple
+from datetime import datetime, timedelta
 import random
-
-Birthday = namedtuple('Birthday', ['month', 'day'])
-months = {
-            1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun',
-            7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'
-        }
 
 
 def get_birthday():
-    month = random.randint(1, 12)
-    day_count = 31 if month in [1, 3, 5, 7, 8, 10, 12] else 30
-    day = random.randint(1, day_count)
-    birthday = Birthday(month, day)
+    start_date = datetime(2000, 1, 1)
+    birthday = start_date + timedelta(days=random.randint(0, 364))
     return birthday
 
 
@@ -31,7 +23,11 @@ def get_pair_birthday(birthdays):
 
 
 
-def get_birthday_str(birthday: Birthday):
+def get_birthday_str(birthday: datetime):
+    months = {
+        1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun',
+        7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'
+    }
     month_num = birthday.month
     month_name = months[month_num]
     birthday_str = f'{month_name} {birthday.day}'
@@ -53,7 +49,7 @@ def get_birthday_count():
 
 
 simulation_count = 100_000
-birthday_count = get_birthday_count()
+birthday_count   = get_birthday_count()
 birthdays = [get_birthday() for _ in range(birthday_count)]
 birthday_strs = [get_birthday_str(b) for b in birthdays]
 print(f'Here are {birthday_count} birthdays:')
